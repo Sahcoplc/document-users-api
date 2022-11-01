@@ -1,6 +1,6 @@
 {
   "name": "document-users-api",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "A SAHCO Document App Users Microservice",
   "main": "index.js",
   "scripts": {
