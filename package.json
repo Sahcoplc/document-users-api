@@ -1,12 +1,13 @@
 {
   "name": "document-users-api",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "A SAHCO Document App Users Microservice",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "serve": "nodemon index.js"
+    "serve": "nodemon index.js",
+    "semantic-release": "semantic-release"
   },
   "author": "",
   "license": "ISC",
@@ -47,5 +48,9 @@
     "mocha": "^10.1.0",
     "semantic-release": "^19.0.5",
     "sinon": "^14.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sahcoplc/document-users-api.git"
   }
 }
