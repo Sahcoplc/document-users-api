@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A SAHCO Document App Users Microservice",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
@@ -15,6 +16,7 @@
     "@faker-js/faker": "^7.6.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
+    "activedirectory": "^0.7.2",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "class-transformer": "^0.5.1",
