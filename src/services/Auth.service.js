@@ -35,7 +35,7 @@ class AuthService {
 
         try {
     
-            const ad = ActiveDirectory(config);
+            const ad = jActiveDirectory(config);
 
             ad.authenticate(user.staff_email, user.pass_word, function(err, auth) {
 
