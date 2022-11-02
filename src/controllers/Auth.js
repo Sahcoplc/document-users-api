@@ -13,22 +13,22 @@ class AuthController {
     login = asyncWrapper(async (req, res) => {
 
         try {
-            const user = await this.authService.auth(req.body)
-            console.log(user)
+            await this.authService.auth(req.body)
+            // console.log(user)
 
-            if (user) {
-                res.status(200).json({
-                  message: "Login Successful",
-                  data: user,
-                  success: 1,
-                });
-        
-            } else {
-        
-                throw new BadRequest("Invalid credentials");
-        
-            }
-            
+            // if (user) {
+            //     res.status(200).json({
+            //       message: "Login Successful",
+            //       data: user,
+            //       success: 1,
+            //     });
+                
+            // }
+            res.status(400).json({
+              message: "Login failed",
+              success: 0,
+            });
+
         } catch (error) {
             console.log(error)
         }
