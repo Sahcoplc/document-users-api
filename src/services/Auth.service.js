@@ -1,5 +1,5 @@
 import ActiveDirectory from "activedirectory";
-import { promisify } from 'util';
+import UnauthenticatedError from "../utils/error/unauthenticated.js";
 
 class AuthService {
     constructor() {
@@ -8,6 +8,13 @@ class AuthService {
         this.username = process.env.LDAP_USERNAME,
         this.password = process.env.LDAP_PASSWORD
     }
+
+    /**
+     * * auth: Authenticate user
+     * ! TO DO: Get authorized user details to fetch users from active directory.
+     * ! TO DO: Fetch user's data from Microsoft Nav when user is authenticated
+     * @param {Object} user 
+     */
     
     auth = async (user) => {
         const config = {
@@ -20,12 +27,23 @@ class AuthService {
         try {
             
             const ad = new ActiveDirectory(config);
-    
-            const activedirectory = promisify(ad)
-            const user = await activedirectory.authenticate(user.username, user.password)
-            console.log(user)
 
-            return user
+            ad.authenticate(user.username, user.password, function(err, authUser) {
+
+                if(err) {
+                    console.log('Auth error: ', err)
+                    // throw new UnauthenticatedError(err.description)
+                    return err.description
+                }
+
+                if(authUser) {
+                    
+                    console.log('Auth user: ', authUser)
+                    return authUser
+                    
+                }
+            })
+
 
         } catch (error) {
             console.log(error)
