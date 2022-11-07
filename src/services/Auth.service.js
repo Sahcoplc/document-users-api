@@ -1,11 +1,8 @@
 import ActiveDirectory from "activedirectory";
 import UnauthenticatedError from "../utils/error/unauthenticated.js";
-import passport from "passport";
-import PassportAD from 'passport-activedirectory'
 
 // LDAP
-import ldap from 'ldapjs'
-
+import { authenticate } from "ldap-authentication";
 
 class AuthService {
     constructor() {
@@ -24,18 +21,29 @@ class AuthService {
     
     auth = async (user) => {
 
+        const username = user.staff_email.split('@')[0]
         const config = {
-            url: 'ldap://sahcol.local',
-            baseDN:'DC=sahcol,DC=local',
+            url: 'ldap://172.25.24.10',
+            baseDN:'172.25.24.10',
             username: process.env.LDAP_USERNAME,
             password: process.env.LDAP_PASSWORD,
             includeMembership: ['user', 'group'],
             secure: true,
+            logging: {
+                name: 'ActiveDirectory',
+                streams: [
+                    { 
+                        level: 'error',
+                        stream: process.stdout 
+                    }
+                ]
+            }
         }
 
         try {
     
-            const ad = jActiveDirectory(config);
+            console.log(username)
+            const ad = new ActiveDirectory(config);
 
             ad.authenticate(user.staff_email, user.pass_word, function(err, auth) {
 
@@ -55,7 +63,33 @@ class AuthService {
                 }
             })
 
-            return;
+
+            // const authenticated = await authenticate({
+            //     ldapOpts: { 
+            //         // url: 'ldap://sahcol.local',
+            //         url: 'ldap://172.25.24.10',
+            //         connectTimeout: 300000,
+            //         timeout: 700000
+            //     },
+            //     // adminDn: 'cn=gbemisola.kotoye,cn=Users,dc=sahcol,dc=local',
+            //     // adminPassword: process.env.LDAP_PASSWORD,
+            //     userDn: `uid=${username},dc=sahcol,dc=local`,
+            //     // verifyUserExists: true,
+            //     userPassword: user.pass_word,
+            //     userSearchBase: '172.25.24.10',
+            //     usernameAttribute: 'uid',
+            //     username: username,
+            //     attributes: ['dn', 'sn', 'cn'],
+            // })
+
+            // if(authenticated) {
+                    
+            //     console.log('Auth user: ', authenticated)
+            //     return authenticated
+                
+            // } else {
+            //     console.log('Authentication failed!');
+            // }
 
         } catch (error) {
             console.log(error)

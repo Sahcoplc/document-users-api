@@ -32,6 +32,7 @@
     "handlebars": "^4.7.7",
     "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
+    "ldap-authentication": "^2.3.2",
     "ldapjs": "^2.3.3",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
