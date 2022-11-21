@@ -7,7 +7,7 @@ import { authenticate } from "ldap-authentication";
 class AuthService {
     constructor() {
         this.url = 'ldap://sahcol.local'
-        this.baseDN = 'DC=sahcol,DC=local'
+        this.base= 'DC=sahcol,DC=local'
         this.username = process.env.LDAP_USERNAME,
         this.password = process.env.LDAP_PASSWORD
     }
@@ -24,7 +24,7 @@ class AuthService {
         const username = user.staff_email.split('@')[0]
         const config = {
             url: 'ldap://172.25.24.10',
-            baseDN:'172.25.24.10',
+            base: this.base,
             username: process.env.LDAP_USERNAME,
             password: process.env.LDAP_PASSWORD,
             includeMembership: ['user', 'group'],
