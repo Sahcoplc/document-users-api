@@ -1,17 +1,20 @@
 import ActiveDirectory from "activedirectory";
 import UnauthenticatedError from "../utils/error/unauthenticated.js";
+import LdapAuth from "ldapauth-fork";
 
 // LDAP
 import { authenticate } from "ldap-authentication";
 
 class AuthService {
     constructor() {
-        this.url = 'ldap://sahcol.local'
+        this.url = 'ldap://172.25.24.10'
         this.base= 'DC=sahcol,DC=local'
         this.username = process.env.LDAP_USERNAME,
         this.password = process.env.LDAP_PASSWORD
     }
 
+    // 'ldap://172.25.24.10'
+    // 'ldap://sahcol.local'
     /**
      * * auth: Authenticate user
      * ! TO DO: Get authorized user details to fetch users from active directory.
@@ -23,7 +26,7 @@ class AuthService {
 
         const username = user.staff_email.split('@')[0]
         const config = {
-            url: 'ldap://172.25.24.10',
+            url: this.url,
             base: this.base,
             username: process.env.LDAP_USERNAME,
             password: process.env.LDAP_PASSWORD,
@@ -42,26 +45,54 @@ class AuthService {
 
         try {
     
-            console.log(username)
-            const ad = new ActiveDirectory(config);
+            const ldap = new LdapAuth({
+                url: 'ldap://172.25.24.10',
+                bindDN: `uid=${process.env.LDAP_USERNAME},ou=users,dc=sahcol,dc=local`,
+                bindCredentials: process.env.LDAP_PASSWORD,
+                searchBase: 'ou=users,dc=sahcol,dc=local',
+                searchFilter: `(uid=${username})`,
+                reconnect: true,
+            });
 
-            ad.authenticate(user.staff_email, user.pass_word, function(err, auth) {
+            ldap.on('error', function (err) {
+                console.error('LdapAuth: ', err);
+            });
 
-                if(err) {
-                    console.log('AD Auth error: ', err)
-                    // throw new UnauthenticatedError(err.description)
-                    return
-                }
+            ldap.on('connection', function (err, connect) {
+                console.error('LdapAuth: ', err);
+                console.log(connect)
+            });
 
-                if(auth) {
+            // ldap.authenticate(username, user.pass_word, function(err, user) {
+            //     if(err) {
+            //         console.log('AD Auth error: ', err)
+            //         // throw new UnauthenticatedError(err.description)
+            //         return
+            //     }
+
+            //     if(user) {
+            //         console.log('AD Auth: ', user)
+            //     }
+            // })
+            // const ad = new ActiveDirectory(config);
+
+            // ad.authenticate(user.staff_email, user.pass_word, function(err, auth) {
+
+            //     if(err) {
+            //         console.log('AD Auth error: ', err)
+            //         // throw new UnauthenticatedError(err.description)
+            //         return
+            //     }
+
+            //     if(auth) {
                     
-                    console.log('Auth user: ', auth)
-                    return authUser
+            //         console.log('Auth user: ', auth)
+            //         return authUser
                     
-                } else {
-                    console.log('Authentication failed!');
-                }
-            })
+            //     } else {
+            //         console.log('Authentication failed!');
+            //     }
+            // })
 
 
             // const authenticated = await authenticate({

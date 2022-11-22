@@ -33,6 +33,7 @@
     "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "ldap-authentication": "^2.3.2",
+    "ldapauth-fork": "^5.0.5",
     "ldapjs": "^2.3.3",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
