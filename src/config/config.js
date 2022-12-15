@@ -12,8 +12,8 @@ export const config = {
             "redirectUri": "https://sahcocareers.com/index.html"
         },
         "tokenRequest": {
+            "scopes": ["user.read"],
             "redirectUri": "https://sahcocareers.com/index.html",
-            "scopes": ["user.read"]
         }
     },
     "resourceApi":
