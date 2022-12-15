@@ -14,12 +14,12 @@ import { config } from "./src/config/config.js";
 dotenv.config('.');
 
 const sessionConfig = {
-    secret: config.authOptions.clientSecret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false, // set this to true on production
-    }
+  secret: config.authOptions.clientSecret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // set this to true on production
+  }
 }
 
 // Port
